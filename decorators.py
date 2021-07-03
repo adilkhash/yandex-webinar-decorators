@@ -1,5 +1,4 @@
 from typing import Callable
-from django.contrib.auth.decorators import login_required
 
 
 def decorator(func: Callable):
