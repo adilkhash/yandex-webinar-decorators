@@ -8,20 +8,17 @@ L - Local
 E - Enclosing
 G - Global
 B - Built-ins
-
 """
 
-outer_var = 2
-
+var = 1
 
 def func():
-    outer_var = 1
+    var = 2
 
     def inner_func():
-        print(f'inner_func = {outer_var=}')
+        nonlocal var
+        print(var)
 
     inner_func()
-    print(f'func = {outer_var=}')
-
 
 func()

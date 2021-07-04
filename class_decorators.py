@@ -1,41 +1,46 @@
+
+
 class Decorator:
+
     def __init__(self, func):
         self.func = func
 
     def __call__(self, *args, **kwargs):
-        print(f'Calling {self.func.__name__}')
-        return self.func(*args, **kwargs)
+        print('Arguments:', *args, **kwargs)
+        print('Hello from class-decorator')
+        self.func(*args, **kwargs)
 
 
 @Decorator
-def say(msg):
+def func(msg):
     print(msg)
-    return 1
 
 
-def class_decorator(cls):
+f = Decorator(func)
+
+
+class A:
+    def __init__(self, a):
+        self.a = a
+
+    def __call__(self, *args, **kwargs):
+        return 1
+
+
+
+
+def repr_decorator(cls):
     def wrapper():
-        def __repr__(self):
-            keys = self.__annotations__.keys()
-            params = ', '.join([f'{key}={getattr(self, key, None)}' for key in keys])
-            return f'<Name: {self.__class__.__name__} {params}>'
-        cls.__repr__ = __repr__
-        cls.__str__ = __repr__
+
+        def _repr(self):
+            return f'[{self.__class__.__name__}]'
+        cls.__repr__ = _repr
         return cls
+
     return wrapper()
 
 
-@class_decorator
-class A:
-    x: int = 1
-    y: int = 2
-
-
-@class_decorator
-class CurrencyCalculator:
-    USD_RATE: float = 70
-    EUR_RATE: float = 80
-
-
-x = CurrencyCalculator()
-print(x)
+@repr_decorator
+class CashCalculator:
+    USD_RATE: int = 70
+    EUR_RATE: int = 80

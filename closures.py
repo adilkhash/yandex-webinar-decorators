@@ -1,25 +1,32 @@
 """
 Замыкание это функция, ссылающаяся на переменные внешней функции (вне локального контекста)
+LEGB
+
+Local
+Enclosing
+Global
+Built-in
 """
 
-def counter():
-    count = 0
 
-    def _counter():
-        nonlocal count
-        count += 1
-        return count
-    return _counter
+def func():
+    calls = 0
+
+    def _inner():
+        nonlocal calls
+        calls = calls + 1
+        return calls
+
+    return _inner
 
 
-if __name__ == '__main__':
-    f = counter()
-    f2 = counter()
+f = func()
+f()
+f()
+f()
+n = f()
+print(n)
 
-    f()
-    f()
-    f()
-    f()
-    n = f()
-    print(n)
-    print(f2())
+y = func()
+x = y()
+print(x)
